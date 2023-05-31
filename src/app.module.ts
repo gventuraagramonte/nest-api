@@ -7,7 +7,7 @@ import { ProductsModule } from './products/products.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: 'localhost',
       port: +process.env.DB_PORT,
       username: process.env.DB_USERNAME,
