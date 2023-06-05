@@ -1,5 +1,6 @@
 // Crea la referencia en la base de datos (TABLA)
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { ProductImage } from './'
 
 @Entity()
 export class Product {
@@ -40,6 +41,18 @@ export class Product {
         default: []
     })
     tags: string[]
+
+    // Un producto puede tener muchas imagenes asociadas
+    // Pero las imagenes solo son asociadas a un producto
+    // Ver descripción de product image en una pestaña en paralelo
+    // eager: true permite que cuando se haga una busqueda individual
+    // se vea en el response las imagenes asociadas al producto
+    @OneToMany(
+        () => ProductImage,
+        (productImage) => productImage.product,
+        { cascade: true, eager: true }
+    )
+    images?: ProductImage[]
 
     @BeforeInsert()
     checkSlugInsert() {
